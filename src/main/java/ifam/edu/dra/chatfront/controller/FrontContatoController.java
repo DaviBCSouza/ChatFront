@@ -19,4 +19,9 @@ public class FrontContatoController {
 		model.addAttribute("contatos", frontContatoService.getContatos());
 		return "listContato";
 	}
+
+	@GetMapping("/newContato")
+	public String newContato(Model model) {
+		return "newContato";
+	}
 }
