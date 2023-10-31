@@ -3,8 +3,12 @@ package ifam.edu.dra.chatfront.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import ifam.edu.dra.chatfront.model.Contato;
 import ifam.edu.dra.chatfront.service.FrontContatoService;
 
 @Controller
@@ -21,7 +25,17 @@ public class FrontContatoController {
 	}
 
 	@GetMapping("/newContato")
-	public String newContato(Model model) {
+	public String newContato(Contato contato) {
 		return "newContato";
+	}
+
+	@PostMapping("/addContato")
+	public String addContato(@Validated Contato contato, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "newContato";
+		}
+
+		frontContatoService.postContato(contato);
+		return "redirect:/showContatos";
 	}
 }

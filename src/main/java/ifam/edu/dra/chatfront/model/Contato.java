@@ -1,16 +1,25 @@
 package ifam.edu.dra.chatfront.model;
 
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 public class Contato {
 
 	private Long id;
+
+	@NotBlank(message = "O campo do Nome não deve ficar vazio!")
 	private String nome;
+	@Email(message = "Digite um email válido")
 	private String email;
+	@NotBlank(message = "O campo do Telefone não deve ficar vazio!")
 	private String telefone;
+	@NotBlank(message = "O campo do Endereço não deve ficar vazio!")
 	private String endereco;
+	@NotBlank(message = "O campo do Bairro não deve ficar vazio!")
 	private String bairro;
+	@NotBlank(message = "O campo do Cidade não deve ficar vazio!")
 	private String cidade;
+	@NotBlank(message = "O campo do Estado não deve ficar vazio!")
 	private String estado;
 
 	public Long getId() {
