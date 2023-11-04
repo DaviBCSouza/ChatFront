@@ -2,6 +2,7 @@ package ifam.edu.dra.chatfront.service;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,5 +38,27 @@ public class FrontContatoService {
 		ResponseEntity<Contato> response = restTemplate.postForEntity(backendUrl, requestBody, Contato.class);
 
 		return response.getBody();
+	}
+
+	public Contato putContato(Contato contato, long id) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<Contato> requestBody = new HttpEntity<>(contato, headers);
+
+		String url = backendUrl + "/" + Long.toString(id);
+		ResponseEntity<Contato> response = restTemplate.exchange(url, HttpMethod.PUT, requestBody, Contato.class);
+		return response.getBody();
+	}
+
+	public void deleteContato(long id) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		String url = backendUrl + "/" + Long.toString(id);
+
+		restTemplate.delete(url);
 	}
 }

@@ -70,7 +70,7 @@
 </head>
 
 <body>
-	<form action="#" th:action="@{/addContato}" th:object="${contato}" method="post">
+	<form action="#" th:action="@{/contato}" th:object="${contato}" method="post">
 		<label for="nome">Nome</label>
 		<input type="text" th:field="*{nome}" id="nome" placeholder="Nome">
 		<span class="mensagem_vazia" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>

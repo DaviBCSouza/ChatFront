@@ -55,12 +55,22 @@
 				<th>Email</th>
 				<th>Telefone</th>
 				<th>Endereço</th>
+				<th></th>
+				<th></th>
 			</tr>
 			<tr th:each="contato : ${contatos}">
 				<td class="align-middle" th:text="${contato.nome}"></td>
 				<td class="align-middle" th:text="${contato.email}"></td>
 				<td class="align-middle" th:text="${contato.telefone}"></td>
 				<td class="align-middle" th:text="${contato.endereco}"></td>
+				<td class="align-middle">
+					<form th:ref="@{contato/{id}(id=${contato.id})}" th:method="delete"><button type="submit"
+							class="btn">Excluir</button></form>
+				</td>
+				<td class="align-middle">
+					<form th:ref="@{contato/{id}(id=${contato.id})}" th:method="put"><button type="submit"
+							class="btn">Alterar</button></form>
+				</td>
 			</tr>
 		</table>
 	</div>
