@@ -39,22 +39,26 @@ public class FrontContatoController {
 		if (result.hasErrors()) {
 			return "newContato";
 		}
-
 		frontContatoService.postContato(contato);
 		return "redirect:/contato";
 	}
 
 	@PutMapping("/{id}")
-	public String changeContato(@PathVariable long id, @Validated Contato contato, BindingResult result, Model model) {
-		
-		frontContatoService.putContato(contato, id);
+	public String changeContato(@PathVariable Long id, @Validated Contato contato, BindingResult result, Model model) {
+		frontContatoService.putContato(id, contato);
 		return "redirect:/contato";
 	}
 
+	@PutMapping("/change/{id}")
+	public String modifiedContato(@PathVariable Long id, @Validated Contato contato, BindingResult result, Model model) {
+		model.addAttribute("contato", frontContatoService.getContato(id));
+		return "changeContato";
+	}
+
 	@DeleteMapping("/{id}")
-	public String deleteContato(@PathVariable long id) {
+	public String deleteContato(@PathVariable Long id) {
 		System.out.println("Excluindo: " + Long.toString(id));
 		frontContatoService.deleteContato(id);
-    	return "redirect:/contato";
+		return "redirect:/contato";
 	}
 }

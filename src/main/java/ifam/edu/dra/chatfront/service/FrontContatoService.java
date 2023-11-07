@@ -26,6 +26,13 @@ public class FrontContatoService {
 		return new ArrayList<Contato>(Arrays.asList(response.getBody()));
 	}
 
+	public Contato getContato(Long id) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		ResponseEntity<Contato> response = restTemplate.getForEntity(backendUrl + "/" + id.toString(), Contato.class);
+		return response.getBody();
+	}
+
 	public Contato postContato(Contato contato) {
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -40,7 +47,7 @@ public class FrontContatoService {
 		return response.getBody();
 	}
 
-	public Contato putContato(Contato contato, long id) {
+	public Contato putContato(Long id, Contato contato) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -54,7 +61,7 @@ public class FrontContatoService {
 		return response.getBody();
 	}
 
-	public void deleteContato(long id) {
+	public void deleteContato(Long id) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		String url = backendUrl + "/" + Long.toString(id);
