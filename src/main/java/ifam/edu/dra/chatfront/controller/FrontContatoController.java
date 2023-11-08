@@ -1,5 +1,7 @@
 package ifam.edu.dra.chatfront.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +26,13 @@ public class FrontContatoController {
 
 	@GetMapping
 	public String showContatos(Model model) {
-
-		model.addAttribute("contatos", frontContatoService.getContatos());
-		return "listContato";
+		List<Contato> contatos = frontContatoService.getContatos();
+		if (contatos == null) {
+			return "redirect:/contato/new";
+		} else {
+			model.addAttribute("contatos", frontContatoService.getContatos());
+			return "listContato";
+		}
 	}
 
 	@GetMapping("/new")
@@ -50,7 +56,8 @@ public class FrontContatoController {
 	}
 
 	@PutMapping("/change/{id}")
-	public String modifiedContato(@PathVariable Long id, @Validated Contato contato, BindingResult result, Model model) {
+	public String modifiedContato(@PathVariable Long id, @Validated Contato contato, BindingResult result,
+			Model model) {
 		model.addAttribute("contato", frontContatoService.getContato(id));
 		return "changeContato";
 	}

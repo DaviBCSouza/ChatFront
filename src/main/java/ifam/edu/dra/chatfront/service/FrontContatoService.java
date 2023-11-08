@@ -6,6 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import ifam.edu.dra.chatfront.model.Contato;
@@ -20,10 +21,13 @@ public class FrontContatoService {
 	private final String backendUrl = "http://localhost:8080/contato";
 
 	public List<Contato> getContatos() {
-		RestTemplate restTemplate = new RestTemplate();
-
-		ResponseEntity<Contato[]> response = restTemplate.getForEntity(backendUrl, Contato[].class);
-		return new ArrayList<Contato>(Arrays.asList(response.getBody()));
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			ResponseEntity<Contato[]> response = restTemplate.getForEntity(backendUrl, Contato[].class);
+			return new ArrayList<>(Arrays.asList(response.getBody()));
+		} catch (HttpClientErrorException.NotFound notFoundException) {
+			return null;
+		}
 	}
 
 	public Contato getContato(Long id) {
@@ -64,8 +68,13 @@ public class FrontContatoService {
 	public void deleteContato(Long id) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		String url = backendUrl + "/" + Long.toString(id);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		restTemplate.delete(url);
+		HttpEntity<Contato> requestBody = new HttpEntity<>(new Contato(), headers);
+
+		String url = backendUrl + "/" + Long.toString(id);
+		restTemplate.exchange(url, HttpMethod.DELETE, requestBody, Contato.class);
 	}
 }
